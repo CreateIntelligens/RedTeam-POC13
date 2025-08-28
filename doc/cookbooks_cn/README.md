@@ -1,5 +1,5 @@
-# Cookbooks
+# 實戰手冊 (Cookbooks)
 
-Because PyRIT is component based, there are many pieces of PyRIT that can be swapped out and most of our documentation tries to illustrate a concept or piece of architecture.
+PyRIT 是基於元件的架構，因此有許多部分可以自由替換。我們大部分的文件旨在闡述一個概念或一部分的架構。
 
-Cookbooks are different. They try to tackle a problem and use the components that work best. We try to comment code with pieces that can be swapped out, but we generally try to use the best components for a task. We'll also try to tackle the problems generically, so it's a good place to start with if your problem is similar. Sometimes there are issues we want to solve, but haven't yet, and we try to note those and we'll try to keep this up to date as we improve.
+而「實戰手冊 (Cookbooks)」則有所不同。它們專注於解決一個具體的問題，並組合使用最適合該任務的元件。我們會在程式碼中註解哪些部分可以替換，但總體上，我們會為特定任務選用最佳的元件組合。我們也會盡量以通用的方式來解決問題，所以如果你的問題與此類似，這裡會是個很好的起點。有時，我們會記錄下那些我們想要解決但尚未解決的問題，並隨著專案的改進，持續更新這些內容。

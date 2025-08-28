@@ -2,7 +2,7 @@
 .claude/
 CLAUDE.md
 poetry.lock
-
+doc/cookbooks_cn/Hint_Target.md
 
 # PyRIT-specific configs
 submodules/
