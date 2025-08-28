@@ -1,17 +1,19 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
+from __future__ import annotations
+
 import uuid
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Literal, Optional, get_args
+from typing import Dict, Literal, Optional, Union, get_args
 
 ScoreType = Literal["true_false", "float_scale"]
 
 
 class Score:
 
-    id: uuid.UUID | str
+    id: Union[uuid.UUID, str]
 
     # The value the scorer ended up with; e.g. True (if true_false) or 0 (if float_scale)
     score_value: str
@@ -57,7 +59,7 @@ class Score:
         score_category: Optional[str] = None,
         score_rationale: str,
         score_metadata: str,
-        prompt_request_response_id: str | uuid.UUID,
+        prompt_request_response_id: Union[str, uuid.UUID],
         scorer_class_identifier: Optional[Dict[str, str]] = None,
         timestamp: Optional[datetime] = None,
         task: Optional[str] = None,

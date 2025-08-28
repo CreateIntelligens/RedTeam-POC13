@@ -13,7 +13,7 @@ from pyrit.models import (
     PromptRequestResponse,
     construct_response_from_request,
 )
-from pyrit.prompt_target import HTTPTarget
+from pyrit.prompt_target.http_target.http_target import HTTPTarget
 from pyrit.prompt_target.common.utils import limit_requests_per_minute
 
 logger = logging.getLogger(__name__)

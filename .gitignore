@@ -1,3 +1,9 @@
+# By CSL
+.claude/
+CLAUDE.md
+poetry.lock
+
+
 # PyRIT-specific configs
 submodules/
 results/

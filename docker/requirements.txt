@@ -6,3 +6,9 @@ matplotlib==3.10.1
 pandas==2.2.3
 seaborn==0.13.2
 ipython==9.0.2
+
+# PyRIT Frontend dependencies
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+krippendorff
