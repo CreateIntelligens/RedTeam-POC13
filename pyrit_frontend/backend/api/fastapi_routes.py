@@ -61,13 +61,18 @@ class CustomModelRequest(BaseModel):
 
 class TestConnectionRequest(BaseModel):
     generator_model: str
-    target_endpoint: str
+    target_config: Dict[str, Any]
+
+
+class TestChatRequest(BaseModel):
+    generator_model: str
+    target_config: Dict[str, Any]
 
 
 class AttackRequest(BaseModel):
     attack_generator: str
     scoring_model: str
-    target_endpoint: str
+    target_config: Dict[str, Any]
     objectives: List[str]
     max_turns: int = 5
     attack_type: str = "crescendo"
@@ -128,17 +133,27 @@ async def test_connection(request: TestConnectionRequest):
     try:
         import time
         
-        # 準備測試訊息
-        test_message = "Hello, this is a test message from PyRIT."
-        
         start_time = time.time()
         
-        # 發送簡單的POST請求到目標端點
+        # 從配置中提取信息
+        config = request.target_config
+        endpoint = config.get('endpoint')
+        request_body = config.get('request_body')
+        headers = config.get('headers', {})
+        headers['Content-Type'] = 'application/json'
+        
+        if not endpoint:
+            return {
+                "success": False,
+                "error": "缺少API端點配置"
+            }
+        
+        # 發送POST請求到目標端點
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.post(
-                request.target_endpoint,
-                json={"message": test_message},
-                headers={"Content-Type": "application/json"}
+                endpoint,
+                json=request_body,
+                headers=headers
             )
         
         end_time = time.time()
@@ -201,7 +216,8 @@ async def run_attack(request: AttackRequest):
             target_endpoint=request.target_endpoint,
             objectives=request.objectives,
             attack_type=request.attack_type,
-            max_turns=request.max_turns
+            max_turns=request.max_turns,
+            request_format=request.request_format
         )
 
         return result

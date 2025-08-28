@@ -240,17 +240,85 @@
         <div class="card">
             <h2><i class="fas fa-crosshairs"></i> 攻擊目標配置</h2>
             <div class="form-group">
-                <label>目標 API 端點</label>
-                <input type="text" id="targetEndpoint" placeholder="https://your-api-endpoint.com/api/chat">
+                <label>目標AI類型</label>
+                <select id="apiType" onchange="showApiConfig()">
+                    <option value="openai">OpenAI (ChatGPT, GPT-4)</option>
+                    <option value="gemini">Google Gemini</option>
+                    <option value="claude">Anthropic Claude</option>
+                    <option value="custom">自定義API</option>
+                </select>
                 <small style="color: #666; display: block; margin-top: 5px;">
-                    輸入你要測試的AI API端點URL，我們會直接向這個端點發送POST請求
+                    選擇你要攻擊的AI類型。OpenAI/Gemini/Claude需要有效的API Key才能進行攻擊測試
                 </small>
             </div>
             
+            <!-- OpenAI 配置 -->
+            <div id="openaiConfig" class="api-config">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="password" id="openaiApiKey" placeholder="sk-..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Model</label>
+                        <input type="text" id="openaiModel" value="gpt-4o" placeholder="gpt-4o">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gemini 配置 -->
+            <div id="geminiConfig" class="api-config" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="password" id="geminiApiKey" placeholder="AIza..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Model</label>
+                        <input type="text" id="geminiModel" value="gemini-1.5-flash" placeholder="gemini-1.5-flash">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Claude 配置 -->
+            <div id="claudeConfig" class="api-config" style="display: none;">
+                <div class="form-group">
+                    <label>API Key</label>
+                    <input type="password" id="claudeApiKey" placeholder="sk-ant-..." required>
+                </div>
+            </div>
+            
+            <!-- 自定義 配置 -->
+            <div id="customConfig" class="api-config" style="display: none;">
+                <div class="form-group">
+                    <label>API端點URL</label>
+                    <input type="text" id="customEndpoint" placeholder="https://your-api.com/v1/chat">
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        輸入你的自定義AI API端點URL
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>請求格式模板 (使用 {MESSAGE} 作為佔位符)</label>
+                    <textarea id="customTemplate" rows="4" placeholder='{"prompt": "{MESSAGE}", "max_tokens": 500}'></textarea>
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        範例: {"input": "{MESSAGE}"} 或 {"query": "{MESSAGE}", "temperature": 0.7}
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label>額外Headers (可選，JSON格式)</label>
+                    <textarea id="customHeaders" rows="2" placeholder='{"Authorization": "Bearer your-token", "X-Custom": "value"}'></textarea>
+                </div>
+            </div>
+            
             <div class="form-group">
-                <button class="btn" onclick="testConnection()">
-                    <i class="fas fa-plug"></i> 測試連接
-                </button>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <button class="btn" onclick="testConnection()">
+                        <i class="fas fa-plug"></i> 測試連接
+                    </button>
+                    <button class="btn" onclick="testChat()" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                        <i class="fas fa-comments"></i> 測試對話
+                    </button>
+                </div>
                 <div id="connectionStatus"></div>
             </div>
         </div>
@@ -356,20 +424,129 @@
             }
         }
         
+        // 顯示API配置
+        function showApiConfig() {
+            const apiType = document.getElementById('apiType').value;
+            
+            // 隱藏所有配置
+            document.querySelectorAll('.api-config').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // 顯示對應配置
+            const configId = apiType + 'Config';
+            const configEl = document.getElementById(configId);
+            if (configEl) {
+                configEl.style.display = 'block';
+            }
+        }
+        
+        // 構建請求配置
+        function buildRequestConfig(message) {
+            const apiType = document.getElementById('apiType').value;
+            
+            let config = {
+                message: message,
+                api_type: apiType
+            };
+            
+            switch (apiType) {
+                case 'openai':
+                    config.endpoint = 'https://api.openai.com/v1/chat/completions';
+                    config.api_key = document.getElementById('openaiApiKey').value;
+                    config.model = document.getElementById('openaiModel').value || 'gpt-4o';
+                    config.request_body = {
+                        "model": config.model,
+                        "messages": [{"role": "user", "content": message}]
+                    };
+                    if (config.api_key) {
+                        config.headers = {"Authorization": `Bearer ${config.api_key}`};
+                    }
+                    break;
+                    
+                case 'gemini':
+                    config.model = document.getElementById('geminiModel').value || 'gemini-1.5-flash';
+                    config.api_key = document.getElementById('geminiApiKey').value;
+                    config.endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent`;
+                    config.request_body = {
+                        "contents": [{"parts": [{"text": message}]}]
+                    };
+                    if (config.api_key) {
+                        config.headers = {"x-goog-api-key": config.api_key};
+                    }
+                    break;
+                    
+                case 'claude':
+                    config.endpoint = 'https://api.anthropic.com/v1/messages';
+                    config.api_key = document.getElementById('claudeApiKey').value;
+                    config.request_body = {
+                        "model": "claude-3-sonnet-20240229",
+                        "max_tokens": 1000,
+                        "messages": [{"role": "user", "content": message}]
+                    };
+                    if (config.api_key) {
+                        config.headers = {
+                            "Authorization": `Bearer ${config.api_key}`,
+                            "anthropic-version": "2023-06-01"
+                        };
+                    }
+                    break;
+                    
+                case 'custom':
+                    config.endpoint = document.getElementById('customEndpoint').value;
+                    const template = document.getElementById('customTemplate').value;
+                    const headers = document.getElementById('customHeaders').value;
+                    
+                    if (!config.endpoint) {
+                        throw new Error('請填寫API端點URL');
+                    }
+                    if (!template) {
+                        throw new Error('請填寫請求格式模板');
+                    }
+                    
+                    try {
+                        const jsonString = template.replace(/{MESSAGE}/g, message);
+                        config.request_body = JSON.parse(jsonString);
+                        
+                        if (headers) {
+                            config.headers = JSON.parse(headers);
+                        }
+                    } catch (e) {
+                        throw new Error('模板或Headers JSON格式無效: ' + e.message);
+                    }
+                    break;
+                    
+                default:
+                    config.endpoint = 'https://api.openai.com/v1/chat/completions';
+                    config.request_body = {"message": message};
+            }
+            
+            return config;
+        }
+        
         // 測試連接
         async function testConnection() {
             const generator = document.getElementById('attackGenerator').value;
-            const endpoint = document.getElementById('targetEndpoint').value;
             const status = document.getElementById('connectionStatus');
             
-            if (!generator || !endpoint) {
-                status.innerHTML = '<span class="status-error">請選擇生成模型並填寫端點URL</span>';
+            if (!generator) {
+                status.innerHTML = '<span class="status-error">請選擇攻擊生成模型</span>';
                 return;
             }
             
             status.innerHTML = '<span class="status-warning">測試中...</span>';
             
             try {
+                // 構建測試請求配置
+                const config = buildRequestConfig("Hello, this is a test message from PyRIT.");
+                
+                // 檢查必要配置
+                const apiType = document.getElementById('apiType').value;
+                if ((apiType === 'openai' || apiType === 'gemini' || apiType === 'claude') && !config.api_key) {
+                    status.innerHTML = '<span class="status-error">請填入API Key</span>';
+                    return;
+                }
+                
                 const response = await fetch('/api/test', {
                     method: 'POST',
                     headers: {
@@ -377,7 +554,7 @@
                     },
                     body: JSON.stringify({
                         generator_model: generator,
-                        target_endpoint: endpoint
+                        target_config: config
                     })
                 });
                 
@@ -393,6 +570,68 @@
                 }
             } catch (error) {
                 status.innerHTML = `<span class="status-error">測試失敗: ${error.message}</span>`;
+            }
+        }
+        
+        // 測試對話
+        async function testChat() {
+            const generator = document.getElementById('attackGenerator').value;
+            const status = document.getElementById('connectionStatus');
+            
+            if (!generator) {
+                status.innerHTML = '<span class="status-error">請選擇攻擊生成模型</span>';
+                return;
+            }
+            
+            // 詢問用戶想說什麼
+            const userMessage = prompt('輸入你想對目標AI說的話：', 'Hello! How are you?');
+            if (!userMessage) {
+                return;
+            }
+            
+            status.innerHTML = '<span class="status-warning">正在與目標AI對話...</span>';
+            
+            try {
+                // 構建對話請求配置
+                const config = buildRequestConfig(userMessage);
+                
+                // 檢查必要配置
+                const apiType = document.getElementById('apiType').value;
+                if ((apiType === 'openai' || apiType === 'gemini' || apiType === 'claude') && !config.api_key) {
+                    status.innerHTML = '<span class="status-error">請填入API Key</span>';
+                    return;
+                }
+                
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        generator_model: generator,
+                        target_config: config
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.innerHTML = `
+                        <div class="status-success">對話成功！</div>
+                        <div style="margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #28a745;">
+                            <div style="margin-bottom: 10px;">
+                                <strong>你：</strong>${userMessage}
+                            </div>
+                            <div>
+                                <strong>AI回應：</strong>${data.response}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    status.innerHTML = `<span class="status-error">對話失敗: ${data.error}</span>`;
+                }
+            } catch (error) {
+                status.innerHTML = `<span class="status-error">對話失敗: ${error.message}</span>`;
             }
         }
         
@@ -419,7 +658,6 @@
         async function runAttack() {
             const attackGenerator = document.getElementById('attackGenerator').value;
             const scoringModel = document.getElementById('scoringModel').value;
-            const targetEndpoint = document.getElementById('targetEndpoint').value;
             const maxTurns = parseInt(document.getElementById('maxTurns').value);
             const attackType = document.getElementById('attackType').value;
             
@@ -427,7 +665,7 @@
             const objectiveInputs = document.querySelectorAll('#objectivesList input');
             const objectives = Array.from(objectiveInputs).map(input => input.value).filter(val => val.trim());
             
-            if (!attackGenerator || !scoringModel || !targetEndpoint || !attackType) {
+            if (!attackGenerator || !scoringModel || !attackType) {
                 alert('請填寫所有必要的配置資訊');
                 return;
             }
@@ -453,10 +691,10 @@
                     body: JSON.stringify({
                         attack_generator: attackGenerator,
                         scoring_model: scoringModel,
-                        target_endpoint: targetEndpoint,
                         objectives: objectives,
                         max_turns: maxTurns,
-                        attack_type: attackType
+                        attack_type: attackType,
+                        target_config: buildRequestConfig("test") // 會在後端用實際攻擊文字替換
                     })
                 });
                 
@@ -757,6 +995,7 @@
             await loadStrategies();
             await loadObjectiveCategories();
             await loadAllObjectives();
+            showApiConfig(); // 顯示默認API配置
         });
     </script>
 </body>

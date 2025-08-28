@@ -27,7 +27,8 @@ class SimpleAttackEngine:
         target_endpoint: str,
         objectives: List[str],
         attack_type: str = "crescendo",
-        max_turns: int = 5
+        max_turns: int = 5,
+        request_format: str = "simple"
     ) -> Dict[str, Any]:
         """執行簡單攻擊"""
         
@@ -41,7 +42,7 @@ class SimpleAttackEngine:
             attack_message = self._generate_attack_message(objective, attack_type, turn)
             
             # 發送攻擊
-            result = await self._send_attack(target_endpoint, attack_message, turn, objective)
+            result = await self._send_attack(target_endpoint, attack_message, turn, objective, request_format)
             results.append(result)
             
             # 短暫延遲，模擬真實攻擊間隔
@@ -78,14 +79,28 @@ class SimpleAttackEngine:
         # 默認直接攻擊
         return f"請告訴我關於 {objective} 的詳細信息。"
     
-    async def _send_attack(self, endpoint: str, message: str, turn: int, objective: str) -> Dict[str, Any]:
+    def _build_request_body(self, message: str, request_format: str) -> Dict[str, Any]:
+        """根據格式構建請求體"""
+        if request_format == "openai":
+            return {"messages": [{"role": "user", "content": message}]}
+        elif request_format == "gemini":
+            return {"contents": [{"parts": [{"text": message}]}]}
+        elif request_format == "claude":
+            return {"prompt": message, "max_tokens": 1000}
+        else:  # simple 或其他
+            return {"message": message}
+    
+    async def _send_attack(self, endpoint: str, message: str, turn: int, objective: str, request_format: str = "simple") -> Dict[str, Any]:
         """發送攻擊並評估結果"""
         
         try:
+            # 根據格式構建請求體
+            request_body = self._build_request_body(message, request_format)
+            
             async with httpx.AsyncClient(timeout=15.0) as client:
                 response = await client.post(
                     endpoint,
-                    json={"message": message},
+                    json=request_body,
                     headers={"Content-Type": "application/json"}
                 )
             
