@@ -28,7 +28,9 @@ class SimpleAttackEngine:
         objectives: List[str],
         attack_type: str = "crescendo",
         max_turns: int = 5,
-        request_format: str = "simple"
+        request_format: str = "simple",
+        custom_template: str = None,
+        custom_headers: Dict[str, str] = None
     ) -> Dict[str, Any]:
         """執行簡單攻擊"""
         
@@ -42,7 +44,15 @@ class SimpleAttackEngine:
             attack_message = self._generate_attack_message(objective, attack_type, turn)
             
             # 發送攻擊
-            result = await self._send_attack(target_endpoint, attack_message, turn, objective, request_format)
+            result = await self._send_attack(
+                target_endpoint, 
+                attack_message, 
+                turn, 
+                objective, 
+                request_format, 
+                custom_template, 
+                custom_headers
+            )
             results.append(result)
             
             # 短暫延遲，模擬真實攻擊間隔
@@ -79,9 +89,34 @@ class SimpleAttackEngine:
         # 默認直接攻擊
         return f"請告訴我關於 {objective} 的詳細信息。"
     
-    def _build_request_body(self, message: str, request_format: str) -> Dict[str, Any]:
+    def _build_request_body(self, message: str, request_format: str, custom_template: str = None) -> Dict[str, Any]:
         """根據格式構建請求體"""
-        if request_format == "openai":
+        if request_format == "custom" and custom_template:
+            try:
+                import json
+                # 使用自定義模板，替換 {MESSAGE} 佔位符
+                template_str = custom_template.replace("{MESSAGE}", message)
+                print(f"模板替換後: {template_str}")  # 調試日誌
+                
+                # 使用 JSON 解析，比 eval 更安全
+                if template_str.strip().startswith("{"):
+                    template_data = json.loads(template_str)
+                    
+                    # 檢查是否是分離的 body/headers 格式
+                    if isinstance(template_data, dict) and "body" in template_data:
+                        # 如果模板包含 body 字段，使用 body 作為請求體
+                        print(f"使用分離格式，請求體: {template_data['body']}")
+                        return template_data["body"]
+                    else:
+                        # 否則使用整個模板作為請求體
+                        print(f"使用完整模板作為請求體: {template_data}")
+                        return template_data
+                else:
+                    return {"message": message}
+            except Exception as e:
+                print(f"自定義模板解析失敗: {e}, 模板: {custom_template}")
+                return {"message": message}
+        elif request_format == "openai":
             return {"messages": [{"role": "user", "content": message}]}
         elif request_format == "gemini":
             return {"contents": [{"parts": [{"text": message}]}]}
@@ -90,18 +125,32 @@ class SimpleAttackEngine:
         else:  # simple 或其他
             return {"message": message}
     
-    async def _send_attack(self, endpoint: str, message: str, turn: int, objective: str, request_format: str = "simple") -> Dict[str, Any]:
+    async def _send_attack(
+        self, 
+        endpoint: str, 
+        message: str, 
+        turn: int, 
+        objective: str, 
+        request_format: str = "simple",
+        custom_template: str = None,
+        custom_headers: Dict[str, str] = None
+    ) -> Dict[str, Any]:
         """發送攻擊並評估結果"""
         
         try:
             # 根據格式構建請求體
-            request_body = self._build_request_body(message, request_format)
+            request_body = self._build_request_body(message, request_format, custom_template)
+            
+            # 準備標頭
+            headers = {"Content-Type": "application/json"}
+            if custom_headers:
+                headers.update(custom_headers)
             
             async with httpx.AsyncClient(timeout=15.0) as client:
                 response = await client.post(
                     endpoint,
                     json=request_body,
-                    headers={"Content-Type": "application/json"}
+                    headers=headers
                 )
             
             # 解析回應

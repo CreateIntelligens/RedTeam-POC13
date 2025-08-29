@@ -201,6 +201,252 @@
             border-left: 4px solid #dc3545;
         }
         
+        /* 模態對話框樣式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 2% auto;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            height: 90%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+        
+        .modal-close:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .modal-status {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.ai {
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+        
+        .message.user .message-content {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .message.ai .message-content {
+            background: white;
+            border: 1px solid #e0e0e0;
+            color: #333;
+        }
+        
+        .message-meta {
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .chat-input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-btn {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #666;
+        }
+        
+        .quick-btn:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .chat-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            resize: none;
+            min-height: 20px;
+            max-height: 120px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .chat-input:focus {
+            border-color: #3498db;
+        }
+        
+        .chat-send-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            min-width: 60px;
+        }
+        
+        .chat-send-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-1px);
+        }
+        
+        .chat-send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .connection-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-connected {
+            background: #28a745;
+        }
+        
+        .status-disconnected {
+            background: #dc3545;
+        }
+        
+        .status-testing {
+            background: #ffc107;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(300px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(300px);
+                opacity: 0;
+            }
+        }
+        
         @media (max-width: 768px) {
             .form-row {
                 grid-template-columns: 1fr;
@@ -220,106 +466,179 @@
         </div>
         
         <div class="card">
-            <h2><i class="fas fa-cogs"></i> 模型配置</h2>
             <div class="form-row">
-                <div class="form-group">
-                    <label>攻擊生成模型 (你的 AI)</label>
-                    <select id="attackGenerator">
-                        <option value="">載入中...</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>評分模型 (你的 AI)</label>
-                    <select id="scoringModel">
-                        <option value="">載入中...</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card">
-            <h2><i class="fas fa-crosshairs"></i> 攻擊目標配置</h2>
-            <div class="form-group">
-                <label>目標AI類型</label>
-                <select id="apiType" onchange="showApiConfig()">
-                    <option value="openai">OpenAI (ChatGPT, GPT-4)</option>
-                    <option value="gemini">Google Gemini</option>
-                    <option value="claude">Anthropic Claude</option>
-                    <option value="custom">自定義API</option>
-                </select>
-                <small style="color: #666; display: block; margin-top: 5px;">
-                    選擇你要攻擊的AI類型。OpenAI/Gemini/Claude需要有效的API Key才能進行攻擊測試
-                </small>
-            </div>
-            
-            <!-- OpenAI 配置 -->
-            <div id="openaiConfig" class="api-config">
-                <div class="form-row">
+                <!-- 左側：模型配置 -->
+                <div style="display: flex; flex-direction: column;">
+                    <h2><i class="fas fa-cogs"></i> 模型配置</h2>
                     <div class="form-group">
-                        <label>API Key</label>
-                        <input type="password" id="openaiApiKey" placeholder="sk-..." required>
+                        <label>攻擊生成模型 (你的 AI)</label>
+                        <select id="attackGenerator">
+                            <option value="">載入中...</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label>Model</label>
-                        <input type="text" id="openaiModel" value="gpt-4o" placeholder="gpt-4o">
+                        <label>評分模型 (你的 AI)</label>
+                        <select id="scoringModel">
+                            <option value="">載入中...</option>
+                        </select>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Gemini 配置 -->
-            <div id="geminiConfig" class="api-config" style="display: none;">
-                <div class="form-row">
+                
+                <!-- 右側：攻擊目標配置 -->
+                <div style="display: flex; flex-direction: column;">
+                    <h2><i class="fas fa-crosshairs"></i> 攻擊目標配置</h2>
                     <div class="form-group">
-                        <label>API Key</label>
-                        <input type="password" id="geminiApiKey" placeholder="AIza..." required>
+                        <label>目標AI類型</label>
+                        <select id="apiType" onchange="showApiConfig()">
+                            <option value="openai">OpenAI (ChatGPT, GPT-4)</option>
+                            <option value="gemini">Google Gemini</option>
+                            <option value="claude">Anthropic Claude</option>
+                            <option value="custom">自定義API</option>
+                        </select>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            選擇你要攻擊的AI類型。OpenAI/Gemini/Claude需要有效的API Key才能進行攻擊測試
+                        </small>
                     </div>
+                    
+                    <!-- OpenAI 配置 -->
+                    <div id="openaiConfig" class="api-config">
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="password" id="openaiApiKey" placeholder="sk-..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <select id="openaiModel" onchange="handleCustomModelSelection('openaiModel')">
+                                <option value="">載入中...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Gemini 配置 -->
+                    <div id="geminiConfig" class="api-config" style="display: none;">
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="password" id="geminiApiKey" placeholder="AIza..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <select id="geminiModel">
+                                <option value="">載入中...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Claude 配置 -->
+                    <div id="claudeConfig" class="api-config" style="display: none;">
+                        <div class="form-group">
+                            <label>API Key</label>
+                            <input type="password" id="claudeApiKey" placeholder="sk-ant-..." required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <select id="claudeModel">
+                                <option value="">載入中...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- 自定義 配置 -->
+                    <div id="customConfig" class="api-config" style="display: none;">
+                        <div class="form-group">
+                            <label>API端點URL</label>
+                            <input type="text" id="customEndpoint" placeholder="https://your-api.com/v1/chat">
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                輸入你的自定義AI API端點URL
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>配置方式</label>
+                            <select id="configMethod" onchange="toggleConfigMethod()">
+                                <option value="json">JSON模板格式</option>
+                                <option value="curl">curl命令格式</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="jsonConfigGroup">
+                            <label>請求格式模板 (使用 {MESSAGE} 作為佔位符)</label>
+                            <textarea id="customTemplate" rows="6" placeholder='{"body": {"prompt": "{MESSAGE}", "max_tokens": 500}, "headers": {"Authorization": "Bearer your-api-key", "Content-Type": "application/json"}}'></textarea>
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                <strong>完整格式範例：</strong><br>
+                                • 簡單請求: {"prompt": "{MESSAGE}"}<br>
+                                • 包含參數: {"input": "{MESSAGE}", "temperature": 0.7}<br>
+                                • 包含認證: {"body": {"prompt": "{MESSAGE}"}, "headers": {"Authorization": "Bearer token"}}<br>
+                                • 支援 body 和 headers 分離配置，也支援直接JSON格式
+                            </small>
+                        </div>
+                        
+                        <div class="form-group" id="responsePathGroup">
+                            <label>回應路徑 (可選，從JSON回應中提取文字)</label>
+                            <input type="text" id="responsePath" placeholder="response" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                <strong>範例：</strong><br>
+                                • response - 提取 {"response": "..."}中的文字<br>
+                                • message - 提取 {"message": "..."}中的文字<br>
+                                • content - 提取 {"content": "..."}中的文字<br>
+                                • 留空則自動偵測 response/message/text/content 等常見字段
+                            </small>
+                        </div>
+                        
+                        <div class="form-group" id="curlConfigGroup" style="display: none;">
+                            <label>curl命令 (使用 "{MESSAGE}" 作為佔位符)</label>
+                            <textarea id="curlCommand" rows="6" placeholder='curl -X POST "https://api.example.com/chat" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer your-api-key" \
+  -d "{\"prompt\": \"{MESSAGE}\", \"max_tokens\": 500}"'></textarea>
+                            <div style="margin-top: 10px;">
+                                <button type="button" class="btn btn-small" onclick="parseCurlToFields()" style="background: linear-gradient(135deg, #17a2b8, #138496);">
+                                    <i class="fas fa-magic"></i> 自動解析curl到欄位
+                                </button>
+                            </div>
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                <strong>curl命令範例：</strong><br>
+                                • 直接貼上你的API curl命令<br>
+                                • 將實際的訊息內容替換為 {MESSAGE}<br>
+                                • 點擊「自動解析」按鈕將自動填入端點URL和JSON模板<br>
+                                • 支援多行格式，方便閱讀
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label>回應格式處理</label>
+                            <select id="customResponseFormat" onchange="handleCustomResponseFormat()">
+                                <option value="auto">自動檢測 (推薦)</option>
+                                <option value="openai">OpenAI格式 (choices[0].message.content)</option>
+                                <option value="claude">Claude格式 (content[0].text)</option>
+                                <option value="gemini">Gemini格式 (candidates[0].content.parts[0].text)</option>
+                                <option value="custom">自定義路徑...</option>
+                            </select>
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                選擇如何解析API回應。自動檢測會嘗試多種常見格式
+                            </small>
+                        </div>
+                        <div class="form-group" id="customResponsePath" style="display: none;">
+                            <label>自定義回應路徑</label>
+                            <input type="text" id="customResponsePathInput" placeholder="response.data.message">
+                            <small style="color: #666; display: block; margin-top: 5px;">
+                                使用點號表示法，例如: data.response.text 或 result[0].content
+                            </small>
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
-                        <label>Model</label>
-                        <input type="text" id="geminiModel" value="gemini-1.5-flash" placeholder="gemini-1.5-flash">
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap;">
+                            <button class="btn" onclick="openChatModal()" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                                <i class="fas fa-vial"></i> 一鍵測試
+                            </button>
+                            <button class="btn" onclick="saveCurrentConfig()" style="background: linear-gradient(135deg, #17a2b8, #138496);">
+                                <i class="fas fa-save"></i> 儲存配置
+                            </button>
+                            <button class="btn" onclick="loadSavedConfigs()" style="background: linear-gradient(135deg, #6f42c1, #5a32a3);">
+                                <i class="fas fa-folder-open"></i> 載入配置
+                            </button>
+                        </div>
+                        <div id="connectionStatus"></div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Claude 配置 -->
-            <div id="claudeConfig" class="api-config" style="display: none;">
-                <div class="form-group">
-                    <label>API Key</label>
-                    <input type="password" id="claudeApiKey" placeholder="sk-ant-..." required>
-                </div>
-            </div>
-            
-            <!-- 自定義 配置 -->
-            <div id="customConfig" class="api-config" style="display: none;">
-                <div class="form-group">
-                    <label>API端點URL</label>
-                    <input type="text" id="customEndpoint" placeholder="https://your-api.com/v1/chat">
-                    <small style="color: #666; display: block; margin-top: 5px;">
-                        輸入你的自定義AI API端點URL
-                    </small>
-                </div>
-                <div class="form-group">
-                    <label>請求格式模板 (使用 {MESSAGE} 作為佔位符)</label>
-                    <textarea id="customTemplate" rows="4" placeholder='{"prompt": "{MESSAGE}", "max_tokens": 500}'></textarea>
-                    <small style="color: #666; display: block; margin-top: 5px;">
-                        範例: {"input": "{MESSAGE}"} 或 {"query": "{MESSAGE}", "temperature": 0.7}
-                    </small>
-                </div>
-                <div class="form-group">
-                    <label>額外Headers (可選，JSON格式)</label>
-                    <textarea id="customHeaders" rows="2" placeholder='{"Authorization": "Bearer your-token", "X-Custom": "value"}'></textarea>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <button class="btn" onclick="testConnection()">
-                        <i class="fas fa-plug"></i> 測試連接
-                    </button>
-                    <button class="btn" onclick="testChat()" style="background: linear-gradient(135deg, #28a745, #20c997);">
-                        <i class="fas fa-comments"></i> 測試對話
-                    </button>
-                </div>
-                <div id="connectionStatus"></div>
             </div>
         </div>
         
@@ -392,6 +711,201 @@
         </div>
     </div>
 
+    <!-- 測試對話模態框 -->
+    <div id="chatModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-comments"></i> 測試目標AI</h2>
+                <button class="modal-close" onclick="closeChatModal()">&times;</button>
+            </div>
+            <div class="modal-status">
+                <div class="connection-indicator">
+                    <span class="status-dot status-disconnected" id="connectionDot"></span>
+                    <span id="connectionText">未連接</span>
+                    <span id="connectionLatency" style="margin-left: 10px; color: #999;"></span>
+                </div>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-content">
+                            歡迎使用PyRIT測試工具！<br>
+                            點擊下方的快速測試按鈕，或者直接輸入訊息來測試目標AI。
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="sendQuickMessage('Hello! How are you?')">
+                            👋 打招呼
+                        </button>
+                        <button class="quick-btn" onclick="sendQuickMessage('What is your name?')">
+                            🔍 詢問身份
+                        </button>
+                        <button class="quick-btn" onclick="sendQuickMessage('Can you help me with something?')">
+                            🤝 請求幫助
+                        </button>
+                        <button class="quick-btn" onclick="testConnectionInModal()">
+                            🔌 測試連接
+                        </button>
+                        <button class="quick-btn" onclick="clearChat()">
+                            🗑️ 清除對話
+                        </button>
+                    </div>
+                    <div class="chat-input-group">
+                        <textarea class="chat-input" id="chatInput" placeholder="輸入訊息..." rows="1"></textarea>
+                        <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 儲存配置模態框 -->
+    <div id="saveConfigModal" class="modal">
+        <div class="modal-content" style="max-width: 500px; height: auto;">
+            <div class="modal-header">
+                <h2><i class="fas fa-save"></i> 儲存配置</h2>
+                <button class="modal-close" onclick="closeSaveConfigModal()">&times;</button>
+            </div>
+            <div style="padding: 30px;">
+                <div class="form-group">
+                    <label>配置名稱</label>
+                    <input type="text" id="saveConfigName" placeholder="輸入配置名稱..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        給這個配置一個容易識別的名稱
+                    </small>
+                </div>
+                <div style="margin-top: 20px; text-align: right;">
+                    <button onclick="closeSaveConfigModal()" style="margin-right: 10px; padding: 10px 20px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">取消</button>
+                    <button onclick="confirmSaveConfig()" style="padding: 10px 20px; background: linear-gradient(135deg, #17a2b8, #138496); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-save"></i> 儲存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 載入配置模態框 -->
+    <div id="loadConfigModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-folder-open"></i> 選擇要載入的配置</h2>
+                <button class="modal-close" onclick="closeLoadConfigModal()">&times;</button>
+            </div>
+            <div style="padding: 20px; flex: 1; overflow-y: auto;">
+                <div id="configList" style="margin-bottom: 20px;">
+                    <!-- 配置列表會在這裡動態生成 -->
+                </div>
+            </div>
+            <div style="padding: 20px; border-top: 1px solid #e9ecef; background: #f8f9fa;">
+                <div style="text-align: right;">
+                    <button onclick="closeLoadConfigModal()" style="margin-right: 10px; padding: 10px 20px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">取消</button>
+                    <button onclick="editSelectedConfig()" style="margin-right: 10px; padding: 10px 20px; background: linear-gradient(135deg, #fd7e14, #e55a1a); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-edit"></i> 編輯配置
+                    </button>
+                    <button onclick="confirmConfigLoad()" style="margin-right: 10px; padding: 10px 20px; background: linear-gradient(135deg, #6f42c1, #5a32a3); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-download"></i> 載入配置
+                    </button>
+                    <button onclick="deleteSelectedConfig()" style="padding: 10px 20px; background: linear-gradient(135deg, #dc3545, #c82333); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-trash"></i> 刪除配置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 編輯配置模態框 -->
+    <div id="editConfigModal" class="modal">
+        <div class="modal-content" style="max-width: 800px; max-height: 90vh;">
+            <div class="modal-header">
+                <h2><i class="fas fa-edit"></i> 編輯配置</h2>
+                <button class="modal-close" onclick="closeEditConfigModal()">&times;</button>
+            </div>
+            <div style="flex: 1; overflow-y: auto; padding: 20px;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>配置名稱</label>
+                        <input type="text" id="editConfigName" placeholder="輸入配置名稱..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <label>API 類型</label>
+                        <select id="editApiType" onchange="showEditApiConfig()" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                            <option value="openai">OpenAI (ChatGPT, GPT-4)</option>
+                            <option value="gemini">Google Gemini</option>
+                            <option value="claude">Anthropic Claude</option>
+                            <option value="custom">自定義API</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>攻擊生成模型</label>
+                        <input type="text" id="editAttackGenerator" placeholder="攻擊生成模型" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <label>評分模型</label>
+                        <input type="text" id="editScoringModel" placeholder="評分模型" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>最大回合數</label>
+                        <input type="number" id="editMaxTurns" value="5" min="1" max="10" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <label>攻擊策略</label>
+                        <input type="text" id="editAttackType" placeholder="攻擊策略" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <!-- API 配置區域 -->
+                <div id="editApiConfigArea">
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="password" id="editApiKey" placeholder="輸入 API Key" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <label>模型</label>
+                        <input type="text" id="editModel" placeholder="模型名稱" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <!-- 自定義 API 配置 -->
+                <div id="editCustomApiConfig" style="display: none;">
+                    <div class="form-group">
+                        <label>API 端點</label>
+                        <input type="text" id="editCustomEndpoint" placeholder="https://your-api.com/v1/chat" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div class="form-group">
+                        <label>JSON 模板</label>
+                        <textarea id="editCustomTemplate" rows="4" placeholder='{"message": "{MESSAGE}"}' style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>攻擊目標 <span style="color: #666; font-weight: normal;">(一行一個)</span></label>
+                    <textarea id="editObjectives" rows="4" placeholder="請輸入攻擊目標，一行一個" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; resize: vertical;"></textarea>
+                </div>
+            </div>
+            <div style="padding: 20px; border-top: 1px solid #e9ecef; background: #f8f9fa;">
+                <div style="text-align: right;">
+                    <button onclick="closeEditConfigModal()" style="margin-right: 10px; padding: 10px 20px; border: 1px solid #ccc; background: white; border-radius: 6px; cursor: pointer;">取消</button>
+                    <button onclick="confirmEditConfig()" style="padding: 10px 20px; background: linear-gradient(135deg, #fd7e14, #e55a1a); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                        <i class="fas fa-save"></i> 儲存配置
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 成功/錯誤提示框 -->
+    <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 2000;"></div>
+
     <script>
         // 全域變數
         let allObjectives = [];
@@ -404,23 +918,76 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    const attackGenerator = document.getElementById('attackGenerator');
-                    const scoringModel = document.getElementById('scoringModel');
-                    
-                    attackGenerator.innerHTML = '<option value="">選擇攻擊生成模型</option>';
-                    scoringModel.innerHTML = '<option value="">選擇評分模型</option>';
-                    
-                    data.models.forEach(model => {
-                        const option1 = new Option(model.name, model.name);
-                        const option2 = new Option(model.name, model.name);
-                        attackGenerator.add(option1);
-                        scoringModel.add(option2);
+                    const models = data.models;
+                    const attackGeneratorSelect = document.getElementById('attackGenerator');
+                    const scoringModelSelect = document.getElementById('scoringModel');
+                    const openaiModelSelect = document.getElementById('openaiModel');
+                    const geminiModelSelect = document.getElementById('geminiModel');
+                    const claudeModelSelect = document.getElementById('claudeModel');
+
+                    const selects = [attackGeneratorSelect, scoringModelSelect, openaiModelSelect, geminiModelSelect, claudeModelSelect];
+
+                    selects.forEach(select => {
+                        if (!select) return;
+                        select.innerHTML = '';
+                        if (select.id === 'attackGenerator' || select.id === 'scoringModel') {
+                            select.innerHTML = '<option value="">選擇模型</option>';
+                        }
+                    });
+
+                    // 填充攻擊/評分模型下拉選單
+                    [attackGeneratorSelect, scoringModelSelect].forEach(select => {
+                        if (!select) return;
+                        Object.keys(models).forEach(groupName => {
+                            const optgroup = document.createElement('optgroup');
+                            optgroup.label = groupName;
+                            models[groupName].forEach(model => {
+                                const option = document.createElement('option');
+                                option.value = model.value;
+                                option.textContent = model.text;
+                                if (model.recommended) {
+                                    option.style.fontWeight = 'bold';
+                                    option.style.color = '#2c3e50';
+                                }
+                                optgroup.appendChild(option);
+                            });
+                            select.appendChild(optgroup);
+                        });
+                    });
+
+                    // 填充目標模型下拉選單
+                    const targetModelSelects = {
+                        'OpenAI': openaiModelSelect,
+                        'Gemini': geminiModelSelect,
+                        'Claude': claudeModelSelect
+                    };
+
+                    Object.keys(targetModelSelects).forEach(provider => {
+                        const select = targetModelSelects[provider];
+                        if (select && models[provider]) {
+                            models[provider].forEach(model => {
+                                const option = document.createElement('option');
+                                option.value = model.value;
+                                option.textContent = model.text;
+                                if (model.recommended) {
+                                    option.style.fontWeight = 'bold';
+                                    option.style.color = '#2c3e50';
+                                }
+                                select.appendChild(option);
+                            });
+                            const customOption = document.createElement('option');
+                            customOption.value = 'custom';
+                            customOption.textContent = '輸入自定義模型名稱...';
+                            select.appendChild(customOption);
+                        }
                     });
                 } else {
                     console.error('載入模型失敗:', data.error);
+                    showToast('無法載入模型列表', 'error');
                 }
             } catch (error) {
                 console.error('載入模型錯誤:', error);
+                showToast('載入模型時發生網路錯誤', 'error');
             }
         }
         
@@ -441,6 +1008,213 @@
             }
         }
         
+        // 切換配置方式
+        function toggleConfigMethod() {
+            const configMethod = document.getElementById('configMethod').value;
+            const jsonGroup = document.getElementById('jsonConfigGroup');
+            const curlGroup = document.getElementById('curlConfigGroup');
+            
+            if (configMethod === 'curl') {
+                jsonGroup.style.display = 'none';
+                curlGroup.style.display = 'block';
+            } else {
+                jsonGroup.style.display = 'block';
+                curlGroup.style.display = 'none';
+            }
+        }
+        
+        // 解析curl命令
+        function parseCurlCommand(curlString) {
+            try {
+                // 移除換行符和多餘空格
+                const cleanCurl = curlString.replace(/\\\s*/g, ' ').replace(/\s+/g, ' ').trim();
+                
+                // 提取URL
+                const urlMatch = cleanCurl.match(/curl\s+(?:-X\s+\w+\s+)?["']?([^"'\s]+)["']?/);
+                const endpoint = urlMatch ? urlMatch[1] : '';
+                
+                // 提取HTTP方法
+                const methodMatch = cleanCurl.match(/-X\s+(\w+)/);
+                const method = methodMatch ? methodMatch[1] : 'POST';
+                
+                // 提取headers
+                const headers = {};
+                const headerMatches = cleanCurl.matchAll(/-H\s+["']([^"']+)["']/g);
+                for (const match of headerMatches) {
+                    const headerParts = match[1].split(':');
+                    if (headerParts.length >= 2) {
+                        const key = headerParts[0].trim();
+                        const value = headerParts.slice(1).join(':').trim();
+                        headers[key] = value;
+                    }
+                }
+                
+                // 提取請求體
+                let requestBody = {};
+                // 更強健的JSON提取邏輯
+                let jsonString = '';
+                
+                // 尝试匹配 -d 後面的JSON，支持單引號、雙引號
+                const patterns = [
+                    /-d\s+'([^']+)'/,
+                    /-d\s+"([^"]+)"/,
+                    /-d\s+(.+?)(?:\s+-|$)/
+                ];
+                
+                for (const pattern of patterns) {
+                    const match = cleanCurl.match(pattern);
+                    if (match) {
+                        jsonString = match[1].trim();
+                        break;
+                    }
+                }
+                
+                console.log('提取的JSON字符串:', jsonString);
+                
+                if (jsonString) {
+                    try {
+                        // 處理常見的轉義
+                        let processedJson = jsonString.replace(/\\"/g, '"');
+                        
+                        // 如果JSON字符串看起來沒有外層大括號，可能是提取錯誤
+                        if (!processedJson.trim().startsWith('{')) {
+                            throw new Error('不是有效的JSON格式');
+                        }
+                        
+                        requestBody = JSON.parse(processedJson);
+                        
+                        // 將 {message} 替換為標準佔位符
+                        const replaceInObject = (obj) => {
+                            for (const key in obj) {
+                                if (typeof obj[key] === 'string') {
+                                    obj[key] = obj[key].replace(/\{message\}/g, '{MESSAGE}');
+                                }
+                            }
+                            return obj;
+                        };
+                        
+                        requestBody = replaceInObject(requestBody);
+                        console.log('成功解析JSON:', requestBody);
+                        
+                    } catch (e) {
+                        console.error('JSON解析失敗:', e, '原始字符串:', jsonString);
+                        // 解析失敗時，返回一個基本結構
+                        requestBody = { message: "{MESSAGE}" };
+                    }
+                }
+                
+                return {
+                    endpoint: endpoint,
+                    method: method,
+                    headers: headers,
+                    requestBody: requestBody
+                };
+            } catch (error) {
+                throw new Error('curl命令格式無效: ' + error.message);
+            }
+        }
+        
+        // 解析curl命令到欄位
+        function parseCurlToFields() {
+            try {
+                const curlCommand = document.getElementById('curlCommand').value;
+                if (!curlCommand.trim()) {
+                    alert('請先輸入curl命令');
+                    return;
+                }
+                
+                // 解析curl命令
+                const curlConfig = parseCurlCommand(curlCommand);
+                
+                if (!curlConfig.endpoint) {
+                    alert('無法從curl命令中提取API端點URL');
+                    return;
+                }
+                
+                // 自動填入端點URL
+                document.getElementById('customEndpoint').value = curlConfig.endpoint;
+                
+                // 構建JSON模板
+                let template = {};
+                
+                // 如果有headers和requestBody，使用分離格式
+                if (Object.keys(curlConfig.headers).length > 0 && Object.keys(curlConfig.requestBody).length > 0) {
+                    template = {
+                        "body": curlConfig.requestBody,
+                        "headers": curlConfig.headers
+                    };
+                } else if (Object.keys(curlConfig.requestBody).length > 0) {
+                    // 只有請求體
+                    template = curlConfig.requestBody;
+                } else {
+                    // 沒有請求體，創建基本模板
+                    template = {
+                        "message": "{MESSAGE}"
+                    };
+                }
+                
+                // 填入JSON模板
+                document.getElementById('customTemplate').value = JSON.stringify(template, null, 2);
+                
+                // 切換到JSON模式
+                document.getElementById('configMethod').value = 'json';
+                toggleConfigMethod();
+                
+                alert('✅ curl命令解析成功！\n\n' + 
+                      '端點URL和JSON模板已自動填入。\n' + 
+                      '請檢查並確認配置是否正確。');
+                
+            } catch (error) {
+                alert('❌ 解析失敗: ' + error.message);
+            }
+        }
+        
+        // 處理自定義回應格式選擇
+        function handleCustomResponseFormat() {
+            const formatSelect = document.getElementById('customResponseFormat');
+            const customPathDiv = document.getElementById('customResponsePath');
+            
+            if (formatSelect.value === 'custom') {
+                customPathDiv.style.display = 'block';
+            } else {
+                customPathDiv.style.display = 'none';
+            }
+        }
+        
+        // 處理自定義模型選擇
+        function handleCustomModelSelection(selectId) {
+            const selectElement = document.getElementById(selectId);
+            const selectedValue = selectElement.value;
+            
+            if (selectedValue === 'custom') {
+                // 創建輸入框替換 select
+                const customInput = document.createElement('input');
+                customInput.type = 'text';
+                customInput.id = selectId;
+                customInput.placeholder = '輸入自定義模型名稱...';
+                customInput.className = selectElement.className;
+                customInput.style.cssText = selectElement.style.cssText;
+                
+                // 添加返回按鈕
+                const returnBtn = document.createElement('button');
+                returnBtn.type = 'button';
+                returnBtn.innerHTML = '↩️';
+                returnBtn.title = '返回選擇列表';
+                returnBtn.style.cssText = 'margin-left: 5px; padding: 5px 8px; border: 1px solid #ccc; background: #f8f9fa; border-radius: 4px; cursor: pointer;';
+                returnBtn.onclick = function() {
+                    location.reload(); // 簡單的重新載入方式
+                };
+                
+                // 替換元素
+                const container = selectElement.parentElement;
+                container.removeChild(selectElement);
+                container.appendChild(customInput);
+                container.appendChild(returnBtn);
+                
+                customInput.focus();
+            }
+        }
+        
         // 構建請求配置
         function buildRequestConfig(message) {
             const apiType = document.getElementById('apiType').value;
@@ -454,7 +1228,8 @@
                 case 'openai':
                     config.endpoint = 'https://api.openai.com/v1/chat/completions';
                     config.api_key = document.getElementById('openaiApiKey').value;
-                    config.model = document.getElementById('openaiModel').value || 'gpt-4o';
+                    const openaiModelElement = document.getElementById('openaiModel');
+                    config.model = openaiModelElement.value || 'gpt-4o';
                     config.request_body = {
                         "model": config.model,
                         "messages": [{"role": "user", "content": message}]
@@ -465,7 +1240,8 @@
                     break;
                     
                 case 'gemini':
-                    config.model = document.getElementById('geminiModel').value || 'gemini-1.5-flash';
+                    const geminiModelElement = document.getElementById('geminiModel');
+                    config.model = geminiModelElement.value || 'gemini-1.5-flash';
                     config.api_key = document.getElementById('geminiApiKey').value;
                     config.endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent`;
                     config.request_body = {
@@ -479,40 +1255,97 @@
                 case 'claude':
                     config.endpoint = 'https://api.anthropic.com/v1/messages';
                     config.api_key = document.getElementById('claudeApiKey').value;
+                    const claudeModelElement = document.getElementById('claudeModel');
+                    config.model = claudeModelElement.value || 'claude-3-5-sonnet-20241022';
                     config.request_body = {
-                        "model": "claude-3-sonnet-20240229",
+                        "model": config.model,
                         "max_tokens": 1000,
                         "messages": [{"role": "user", "content": message}]
                     };
                     if (config.api_key) {
                         config.headers = {
-                            "Authorization": `Bearer ${config.api_key}`,
-                            "anthropic-version": "2023-06-01"
+                            "x-api-key": config.api_key,
+                            "anthropic-version": "2023-06-01",
+                            "content-type": "application/json"
                         };
                     }
                     break;
                     
                 case 'custom':
-                    config.endpoint = document.getElementById('customEndpoint').value;
-                    const template = document.getElementById('customTemplate').value;
-                    const headers = document.getElementById('customHeaders').value;
+                    const configMethod = document.getElementById('configMethod').value;
+                    const responseFormat = document.getElementById('customResponseFormat').value;
+                    const responsePath = document.getElementById('customResponsePathInput').value;
                     
-                    if (!config.endpoint) {
-                        throw new Error('請填寫API端點URL');
-                    }
-                    if (!template) {
-                        throw new Error('請填寫請求格式模板');
-                    }
-                    
-                    try {
-                        const jsonString = template.replace(/{MESSAGE}/g, message);
-                        config.request_body = JSON.parse(jsonString);
-                        
-                        if (headers) {
-                            config.headers = JSON.parse(headers);
+                    if (configMethod === 'curl') {
+                        // 使用curl命令格式
+                        const curlCommand = document.getElementById('curlCommand').value;
+                        if (!curlCommand) {
+                            throw new Error('請填寫curl命令');
                         }
-                    } catch (e) {
-                        throw new Error('模板或Headers JSON格式無效: ' + e.message);
+                        
+                        try {
+                            // 替換訊息佔位符
+                            const processedCurl = curlCommand.replace(/{MESSAGE}/g, message);
+                            
+                            // 解析curl命令
+                            const curlConfig = parseCurlCommand(processedCurl);
+                            
+                            config.endpoint = curlConfig.endpoint;
+                            config.method = curlConfig.method;
+                            config.headers = curlConfig.headers;
+                            config.request_body = curlConfig.requestBody;
+                            
+                            if (!config.endpoint) {
+                                throw new Error('無法從curl命令中提取API端點');
+                            }
+                        } catch (e) {
+                            throw new Error('curl命令解析失敗: ' + e.message);
+                        }
+                    } else {
+                        // 使用JSON模板格式
+                        config.endpoint = document.getElementById('customEndpoint').value;
+                        const template = document.getElementById('customTemplate').value;
+                        
+                        if (!config.endpoint) {
+                            throw new Error('請填寫API端點URL');
+                        }
+                        if (!template) {
+                            throw new Error('請填寫請求格式模板');
+                        }
+                        
+                        try {
+                            const jsonString = template.replace(/{MESSAGE}/g, message);
+                            const templateData = JSON.parse(jsonString);
+                            
+                            // 檢查模板是否有分離的body和headers配置
+                            if (templateData.body && templateData.headers) {
+                                // 新格式：分離的body和headers
+                                config.request_body = templateData.body;
+                                config.headers = templateData.headers;
+                            } else if (templateData.body) {
+                                // 只有body，沒有headers
+                                config.request_body = templateData.body;
+                            } else {
+                                // 傳統格式：直接作為request body
+                                config.request_body = templateData;
+                            }
+                            
+                            // 確保 customTemplate 字段被設置，讓後端可以訪問原始模板
+                            config.customTemplate = template;
+                        } catch (e) {
+                            throw new Error('模板JSON格式無效: ' + e.message);
+                        }
+                    }
+                    
+                    // 無論哪種配置方式，都要設置 customTemplate 字段
+                    if (!config.customTemplate && document.getElementById('customTemplate').value) {
+                        config.customTemplate = document.getElementById('customTemplate').value;
+                    }
+                    
+                    // 添加回應格式配置
+                    config.response_format = responseFormat;
+                    if (responseFormat === 'custom' && responsePath) {
+                        config.response_path = responsePath;
                     }
                     break;
                     
@@ -524,15 +1357,9 @@
             return config;
         }
         
-        // 測試連接
+        // 測試連接 - 現在不需要攻擊生成模型
         async function testConnection() {
-            const generator = document.getElementById('attackGenerator').value;
             const status = document.getElementById('connectionStatus');
-            
-            if (!generator) {
-                status.innerHTML = '<span class="status-error">請選擇攻擊生成模型</span>';
-                return;
-            }
             
             status.innerHTML = '<span class="status-warning">測試中...</span>';
             
@@ -543,7 +1370,7 @@
                 // 檢查必要配置
                 const apiType = document.getElementById('apiType').value;
                 if ((apiType === 'openai' || apiType === 'gemini' || apiType === 'claude') && !config.api_key) {
-                    status.innerHTML = '<span class="status-error">請填入API Key</span>';
+                    status.innerHTML = '<span class="status-error">請填寫所有必要資訊</span>';
                     return;
                 }
                 
@@ -553,7 +1380,6 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        generator_model: generator,
                         target_config: config
                     })
                 });
@@ -598,7 +1424,7 @@
                 // 檢查必要配置
                 const apiType = document.getElementById('apiType').value;
                 if ((apiType === 'openai' || apiType === 'gemini' || apiType === 'claude') && !config.api_key) {
-                    status.innerHTML = '<span class="status-error">請填入API Key</span>';
+                    status.innerHTML = '<span class="status-error">請填寫所有必要資訊</span>';
                     return;
                 }
                 
@@ -767,6 +1593,9 @@
                     Object.keys(data.strategies).forEach(key => {
                         const strategy = data.strategies[key];
                         const option = new Option(strategy.name, key);
+                        if (strategy.recommended) {
+                           option.style.fontWeight = 'bold';
+                        }
                         select.add(option);
                     });
                 } else {
@@ -930,8 +1759,8 @@
             
             const dialog = document.createElement('div');
             dialog.innerHTML = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; max-height: 80%; overflow-y: auto;">
+                <div class="objective-dialog-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;" onclick="handleObjectiveDialogClick(event)">
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; max-height: 80%; overflow-y: auto;" onclick="event.stopPropagation()">
                         <h3 style="margin-bottom: 20px;">${selectedObjective.name}</h3>
                         <p style="color: #666; margin-bottom: 20px;">${selectedObjective.description}</p>
                         <div style="margin-bottom: 20px;">
@@ -948,12 +1777,28 @@
                 </div>
             `;
             document.body.appendChild(dialog);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 處理目標對話框點擊外部
+        function handleObjectiveDialogClick(event) {
+            if (event.target.classList.contains('objective-dialog-overlay')) {
+                cancelObjectiveSelection();
+            }
         }
         
         // 取消目標選擇
         function cancelObjectiveSelection() {
-            const dialog = document.querySelector('div[style*="position: fixed"]').parentElement;
-            document.body.removeChild(dialog);
+            // 找到包含 objective-dialog-overlay 類的元素
+            const overlay = document.querySelector('.objective-dialog-overlay');
+            if (overlay) {
+                // 外層 dialog 是 overlay 的父元素
+                const outerDialog = overlay.parentElement;
+                if (outerDialog && outerDialog.parentElement === document.body) {
+                    document.body.removeChild(outerDialog);
+                }
+            }
+            document.body.style.overflow = 'auto'; // 恢復滾動
         }
         
         // 確認目標選擇
@@ -983,20 +1828,547 @@
             cancelObjectiveSelection();
             
             if (addedCount > 0) {
-                alert('已添加 ' + addedCount + ' 個攻擊目標');
+                showToast(`已添加 ${addedCount} 個攻擊目標`, 'success');
             } else {
-                alert('未選擇任何目標');
+                showToast('未選擇任何目標', 'warning');
             }
         }
         
-        // 頁面載入時載入所有內容
-        document.addEventListener('DOMContentLoaded', async function() {
-            await loadModels();
-            await loadStrategies();
-            await loadObjectiveCategories();
-            await loadAllObjectives();
-            showApiConfig(); // 顯示默認API配置
-        });
+        // 模態對話框功能
+        function openChatModal() {
+            // 測試功能不需要選擇攻擊生成模型，只需要目標AI配置
+            document.getElementById('chatModal').style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 防止背景滾動
+            
+            // 檢查連接狀態
+            updateConnectionStatus();
+        }
+        
+        function closeChatModal() {
+            document.getElementById('chatModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢復滾動
+        }
+        
+        function updateConnectionStatus() {
+            const apiType = document.getElementById('apiType').value;
+            const connectionDot = document.getElementById('connectionDot');
+            const connectionText = document.getElementById('connectionText');
+            
+            try {
+                const config = buildRequestConfig("test");
+                if ((apiType === 'openai' || apiType === 'gemini' || apiType === 'claude') && !config.api_key) {
+                    connectionDot.className = 'status-dot status-disconnected';
+                    connectionText.textContent = '需要API Key';
+                } else {
+                    connectionDot.className = 'status-dot status-connected';
+                    connectionText.textContent = `已配置 ${apiType.toUpperCase()}`;
+                }
+            } catch (error) {
+                connectionDot.className = 'status-dot status-disconnected';
+                connectionText.textContent = '配置錯誤';
+            }
+        }
+        
+        function addChatMessage(content, isUser = false) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const currentTime = new Date().toLocaleTimeString('zh-TW', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    ${content}
+                    <div class="message-meta">${currentTime}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        async function sendChatMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const chatSendBtn = document.getElementById('chatSendBtn');
+            const message = chatInput.value.trim();
+            
+            if (!message) return;
+            
+            // 添加用戶訊息
+            addChatMessage(message, true);
+            chatInput.value = '';
+            
+            // 禁用發送按鈕
+            chatSendBtn.disabled = true;
+            chatSendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+
+            try {
+                const config = buildRequestConfig(message);
+                
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        target_config: config
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addChatMessage(data.response);
+                } else {
+                    addChatMessage(`錯誤: ${data.error}`, false);
+                }
+            } catch (error) {
+                addChatMessage(`請求失敗: ${error.message}`, false);
+            } finally {
+                // 啟用發送按鈕
+                chatSendBtn.disabled = false;
+                chatSendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }
+        }
+        
+        function sendQuickMessage(message) {
+            document.getElementById('chatInput').value = message;
+            sendChatMessage();
+        }
+        
+        function clearChat() {
+            document.getElementById('chatMessages').innerHTML = `
+                <div class="message ai">
+                    <div class="message-content">
+                        對話已清除。
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function testConnectionInModal() {
+            const connectionDot = document.getElementById('connectionDot');
+            const connectionText = document.getElementById('connectionText');
+            const connectionLatency = document.getElementById('connectionLatency');
+            
+            connectionDot.className = 'status-dot status-testing';
+            connectionText.textContent = '測試中...';
+            connectionLatency.textContent = '';
+            
+            try {
+                const config = buildRequestConfig("Hello, this is a test message from PyRIT.");
+                
+                const response = await fetch('/api/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        target_config: config
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    connectionDot.className = 'status-dot status-connected';
+                    connectionText.textContent = '連接成功';
+                    connectionLatency.textContent = `延遲: ${data.latency}`;
+                    showToast('連接成功！', 'success');
+                } else {
+                    connectionDot.className = 'status-dot status-disconnected';
+                    connectionText.textContent = '連接失敗';
+                    connectionLatency.textContent = '';
+                    showToast(`連接失敗: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                connectionDot.className = 'status-dot status-disconnected';
+                connectionText.textContent = '連接失敗';
+                connectionLatency.textContent = '';
+                showToast(`測試失敗: ${error.message}`, 'error');
+            }
+        }
+        
+        // 儲存和載入配置
+        function saveCurrentConfig() {
+            document.getElementById('saveConfigModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeSaveConfigModal() {
+            document.getElementById('saveConfigModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function confirmSaveConfig() {
+            const configName = document.getElementById('saveConfigName').value.trim();
+            if (!configName) {
+                alert('請輸入配置名稱');
+                return;
+            }
+            
+            const config = {
+                name: configName,
+                attackGenerator: document.getElementById('attackGenerator').value,
+                scoringModel: document.getElementById('scoringModel').value,
+                maxTurns: document.getElementById('maxTurns').value,
+                attackType: document.getElementById('attackType').value,
+                apiType: document.getElementById('apiType').value,
+                objectives: Array.from(document.querySelectorAll('#objectivesList input')).map(input => input.value).filter(val => val.trim())
+            };
+            
+            // 根據API類型儲存特定配置
+            switch (config.apiType) {
+                case 'openai':
+                    config.apiKey = document.getElementById('openaiApiKey').value;
+                    config.model = document.getElementById('openaiModel').value;
+                    break;
+                case 'gemini':
+                    config.apiKey = document.getElementById('geminiApiKey').value;
+                    config.model = document.getElementById('geminiModel').value;
+                    break;
+                case 'claude':
+                    config.apiKey = document.getElementById('claudeApiKey').value;
+                    config.model = document.getElementById('claudeModel').value;
+                    break;
+                case 'custom':
+                    config.customEndpoint = document.getElementById('customEndpoint').value;
+                    config.customTemplate = document.getElementById('customTemplate').value;
+                    config.curlCommand = document.getElementById('curlCommand').value;
+                    break;
+            }
+            
+            let savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            
+            // 檢查名稱是否重複
+            const existingIndex = savedConfigs.findIndex(c => c.name === configName);
+            if (existingIndex > -1) {
+                if (confirm('已存在同名配置，是否要覆蓋？')) {
+                    savedConfigs[existingIndex] = config;
+                } else {
+                    return;
+                }
+            } else {
+                savedConfigs.push(config);
+            }
+            
+            localStorage.setItem('pyritConfigs', JSON.stringify(savedConfigs));
+            
+            showToast('配置已儲存！', 'success');
+            closeSaveConfigModal();
+        }
+        
+        function loadSavedConfigs() {
+            const savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            const configListDiv = document.getElementById('configList');
+            
+            configListDiv.innerHTML = '';
+            
+            if (savedConfigs.length === 0) {
+                configListDiv.innerHTML = '<p style="color: #666;">沒有已儲存的配置。</p>';
+            } else {
+                savedConfigs.forEach((config, index) => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s;';
+                    div.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-weight: bold; color: #2c3e50;">${config.name}</div>
+                            <div style="font-size: 12px; color: #666;">${config.apiType.toUpperCase()}</div>
+                        </div>
+                        <div style="font-size: 13px; color: #666; margin-top: 8px;">
+                            攻擊模型: ${config.attackGenerator || '未設定'} | 攻擊策略: ${config.attackType || '未設定'}
+                        </div>
+                    `;
+                    div.onclick = function() {
+                        // 移除其他選中項的樣式
+                        document.querySelectorAll('#configList > div').forEach(el => {
+                            el.style.background = 'white';
+                            el.style.borderColor = '#e0e0e0';
+                        });
+                        // 設置當前選中項的樣式
+                        this.style.background = '#eaf6ff';
+                        this.style.borderColor = '#3498db';
+                        this.dataset.selectedIndex = index;
+                    };
+                    configListDiv.appendChild(div);
+                });
+            }
+            
+            document.getElementById('loadConfigModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLoadConfigModal() {
+            document.getElementById('loadConfigModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function confirmConfigLoad() {
+            const selectedDiv = document.querySelector('#configList > div[data-selected-index]');
+            if (!selectedDiv) {
+                alert('請先選擇一個配置');
+                return;
+            }
+            
+            const index = parseInt(selectedDiv.dataset.selectedIndex);
+            const savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            const config = savedConfigs[index];
+            
+            if (!config) {
+                alert('找不到選擇的配置');
+                return;
+            }
+            
+            // 載入配置到UI
+            document.getElementById('attackGenerator').value = config.attackGenerator || '';
+            document.getElementById('scoringModel').value = config.scoringModel || '';
+            document.getElementById('maxTurns').value = config.maxTurns || 5;
+            document.getElementById('attackType').value = config.attackType || '';
+            document.getElementById('apiType').value = config.apiType || 'openai';
+            
+            showApiConfig();
+            
+            switch (config.apiType) {
+                case 'openai':
+                    document.getElementById('openaiApiKey').value = config.apiKey || '';
+                    document.getElementById('openaiModel').value = config.model || 'gpt-4o';
+                    break;
+                case 'gemini':
+                    document.getElementById('geminiApiKey').value = config.apiKey || '';
+                    document.getElementById('geminiModel').value = config.model || 'gemini-1.5-flash';
+                    break;
+                case 'claude':
+                    document.getElementById('claudeApiKey').value = config.apiKey || '';
+                    document.getElementById('claudeModel').value = config.model || 'claude-3-5-sonnet-20241022';
+                    break;
+                case 'custom':
+                    document.getElementById('customEndpoint').value = config.customEndpoint || '';
+                    document.getElementById('customTemplate').value = config.customTemplate || '';
+                    document.getElementById('curlCommand').value = config.curlCommand || '';
+                    break;
+            }
+            
+            // 載入攻擊目標
+            const objectivesList = document.getElementById('objectivesList');
+            objectivesList.innerHTML = '';
+            if (config.objectives && config.objectives.length > 0) {
+                config.objectives.forEach(obj => {
+                    const div = document.createElement('div');
+                    div.className = 'objective-item';
+                    div.innerHTML = `
+                        <input type="text" value="${obj}">
+                        <button class="btn btn-danger btn-small" onclick="removeObjective(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
+                    objectivesList.appendChild(div);
+                });
+            }
+            
+            showStrategyInfo();
+            showToast('配置已載入！', 'success');
+            closeLoadConfigModal();
+        }
+        
+        function deleteSelectedConfig() {
+            const selectedDiv = document.querySelector('#configList > div[data-selected-index]');
+            if (!selectedDiv) {
+                alert('請先選擇一個配置');
+                return;
+            }
+            
+            if (!confirm('確定要刪除這個配置嗎？此操作無法復原。')) {
+                return;
+            }
+            
+            const index = parseInt(selectedDiv.dataset.selectedIndex);
+            let savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            
+            savedConfigs.splice(index, 1);
+            
+            localStorage.setItem('pyritConfigs', JSON.stringify(savedConfigs));
+            
+            showToast('配置已刪除！', 'success');
+            loadSavedConfigs(); // 重新載入列表
+        }
+        
+        function editSelectedConfig() {
+            const selectedDiv = document.querySelector('#configList > div[data-selected-index]');
+            if (!selectedDiv) {
+                alert('請先選擇一個配置');
+                return;
+            }
+            
+            const index = parseInt(selectedDiv.dataset.selectedIndex);
+            const savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            const config = savedConfigs[index];
+            
+            if (!config) {
+                alert('找不到選擇的配置');
+                return;
+            }
+            
+            // 填充編輯模態框
+            document.getElementById('editConfigName').value = config.name;
+            document.getElementById('editAttackGenerator').value = config.attackGenerator || '';
+            document.getElementById('editScoringModel').value = config.scoringModel || '';
+            document.getElementById('editMaxTurns').value = config.maxTurns || 5;
+            document.getElementById('editAttackType').value = config.attackType || '';
+            document.getElementById('editApiType').value = config.apiType || 'openai';
+            
+            const objectivesText = (config.objectives || []).join('\n');
+            document.getElementById('editObjectives').value = objectivesText;
+            
+            showEditApiConfig();
+            
+            switch (config.apiType) {
+                case 'openai':
+                case 'gemini':
+                case 'claude':
+                    document.getElementById('editApiKey').value = config.apiKey || '';
+                    document.getElementById('editModel').value = config.model || '';
+                    break;
+                case 'custom':
+                    document.getElementById('editCustomEndpoint').value = config.customEndpoint || '';
+                    document.getElementById('editCustomTemplate').value = config.customTemplate || '';
+                    break;
+            }
+            
+            // 儲存當前編輯的索引
+            document.getElementById('editConfigModal').dataset.editingIndex = index;
+            
+            // 顯示編輯模態框
+            document.getElementById('editConfigModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEditConfigModal() {
+            document.getElementById('editConfigModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showEditApiConfig() {
+            const apiType = document.getElementById('editApiType').value;
+            const apiConfigArea = document.getElementById('editApiConfigArea');
+            const customConfigArea = document.getElementById('editCustomApiConfig');
+            
+            if (apiType === 'custom') {
+                apiConfigArea.style.display = 'none';
+                customConfigArea.style.display = 'block';
+            } else {
+                apiConfigArea.style.display = 'block';
+                customConfigArea.style.display = 'none';
+            }
+        }
+        
+        function confirmEditConfig() {
+            const index = parseInt(document.getElementById('editConfigModal').dataset.editingIndex);
+            let savedConfigs = JSON.parse(localStorage.getItem('pyritConfigs')) || [];
+            
+            const newConfig = {
+                name: document.getElementById('editConfigName').value.trim(),
+                attackGenerator: document.getElementById('editAttackGenerator').value,
+                scoringModel: document.getElementById('editScoringModel').value,
+                maxTurns: document.getElementById('editMaxTurns').value,
+                attackType: document.getElementById('editAttackType').value,
+                apiType: document.getElementById('editApiType').value,
+                objectives: document.getElementById('editObjectives').value.split('\n').filter(line => line.trim() !== '')
+            };
+            
+            switch (newConfig.apiType) {
+                case 'openai':
+                case 'gemini':
+                case 'claude':
+                    newConfig.apiKey = document.getElementById('editApiKey').value;
+                    newConfig.model = document.getElementById('editModel').value;
+                    break;
+                case 'custom':
+                    newConfig.customEndpoint = document.getElementById('editCustomEndpoint').value;
+                    newConfig.customTemplate = document.getElementById('editCustomTemplate').value;
+                    break;
+            }
+            
+            // 更新配置
+            savedConfigs[index] = newConfig;
+            
+            localStorage.setItem('pyritConfigs', JSON.stringify(savedConfigs));
+            
+            showToast('配置已更新！', 'success');
+            closeEditConfigModal();
+            loadSavedConfigs(); // 重新載入列表
+        }
+        
+        // 提示框功能
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                info: '#3498db',
+                success: '#28a745',
+                warning: '#f39c12',
+                error: '#e74c3c'
+            };
+            
+            const icons = {
+                info: 'fas fa-info-circle',
+                success: 'fas fa-check-circle',
+                warning: 'fas fa-exclamation-triangle',
+                error: 'fas fa-times-circle'
+            };
+            
+            toast.style.cssText = `
+                background-color: white;
+                color: #333;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                border-left: 5px solid ${colors[type]};
+                animation: slideInRight 0.5s ease-out;
+            `;
+            
+            toast.innerHTML = `<i class="${icons[type]}" style="color: ${colors[type]};"></i> ${message}`;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.5s ease-in';
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 3000);
+        }
+        
+        // 頁面載入時初始化
+        window.onload = () => {
+            loadModels();
+            loadStrategies();
+            loadAllObjectives().then(() => {
+                loadObjectiveCategories();
+            });
+            
+            // 添加一個預設的攻擊目標
+            addObjective();
+            
+            // 顯示預設API配置
+            showApiConfig();
+            
+            // 監聽 chat input 的 Enter 鍵
+            document.getElementById('chatInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendChatMessage();
+                }
+            });
+        };
     </script>
 </body>
 </html>
